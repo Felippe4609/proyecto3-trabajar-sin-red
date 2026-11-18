@@ -18,7 +18,7 @@ import geih_core as gc
 from paleta import PALETAS, SECUENCIAL, SUAVE, TINTA
 
 # ─────────────────────────────── completar antes de entregar
-ENLACE_POWERBI = ""   # enlace del dashboard en Power BI Service
+ENLACE_POWERBI = "https://app.powerbi.com/groups/me/reports/a885eea7-31cd-4ffa-8f65-5ed603e3aabb?ctid=3b944d9a-1051-4685-b09d-9a95ee2dbd99&pbi_source=linkShare"
 ENLACE_REPO = "https://github.com/Felippe4609/proyecto3-trabajar-sin-red"
 ENLACE_NOTEBOOK = ("https://github.com/Felippe4609/proyecto3-trabajar-sin-red/blob/main/analisis/EquipoCastroPulido_Proyecto3_Notebook.ipynb")
 
