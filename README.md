@@ -1,0 +1,35 @@
+# Trabajar sin red
+
+Las mujeres que sostienen un hogar con hijos menores en Colombia.
+
+Producto digital narrativo del **Proyecto 3** de Visualización I, Universidad Externado
+de Colombia. Equipo Castro–Pulido: David Ricardo Castro González y Felipe Alejandro
+Pulido Díaz.
+
+La aplicación recorre la historia en nueve pasos, con los datos de la Gran Encuesta
+Integrada de Hogares (GEIH) 2026 del DANE, enero a junio.
+
+## Qué hay aquí
+
+| Archivo | Qué es |
+|---|---|
+| `app.py` | La aplicación, en Streamlit |
+| `geih_core.py` | Carga y validación de las tablas |
+| `requirements.txt` | Dependencias |
+| `outputs/` | Tablas agregadas y figuras |
+
+## Sobre los datos
+
+La aplicación **no lee microdatos**: lee las tablas agregadas de `outputs/`, que son
+porcentajes y promedios ya ponderados con el factor de expansión. Los microdatos de la
+GEIH no se republican aquí.
+
+Fuente: DANE, Gran Encuesta Integrada de Hogares 2026.
+Cálculos propios. Cartografía del mapa: GADM 4.1.
+
+## Ejecutar en local
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```

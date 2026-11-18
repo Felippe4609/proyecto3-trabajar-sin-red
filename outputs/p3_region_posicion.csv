@@ -1,0 +1,29 @@
+region,posicion,informalidad,ingreso,jefas_mes,n
+Bogotá,Cuenta propia,64.5182,2645910.7052,100379.2237,150
+Bogotá,Empleado(a) particular,13.3853,3183725.5523,255084.1068,372
+Caribe,Cuenta propia,86.0499,825373.2559,267965.7672,2286
+Caribe,Empleado(a) del gobierno,0.0,4089448.5221,16566.2464,226
+Caribe,Empleado(a) doméstico(a),98.247,795806.3677,48858.2691,452
+Caribe,Empleado(a) particular,29.1353,1984762.8081,139605.6162,1635
+Caribe,Patrón(a) o empleador(a),45.6092,3020773.3604,5233.8325,47
+Central,Cuenta propia,81.124,1375744.9576,167199.9443,1668
+Central,Empleado(a) del gobierno,0.0,5561640.007,18959.3145,240
+Central,Empleado(a) doméstico(a),76.3142,1266398.3933,24897.4095,246
+Central,Empleado(a) particular,33.5879,2183059.5006,267417.1471,2459
+Central,Jornalero(a) o peón,98.6349,900831.5285,6613.4353,43
+Central,Patrón(a) o empleador(a),44.7185,6321783.3102,10429.6121,82
+Oriental,Cuenta propia,77.4462,2153929.5864,176087.5046,1301
+Oriental,Empleado(a) del gobierno,0.0,4978869.5983,19136.2937,171
+Oriental,Empleado(a) doméstico(a),81.9303,1267259.0459,22450.6334,172
+Oriental,Empleado(a) particular,30.5229,2075405.9285,235836.4517,1525
+Oriental,Jornalero(a) o peón,67.0907,1403257.7567,11456.591,41
+Oriental,Patrón(a) o empleador(a),17.8071,5719351.5276,9438.355,58
+Orinoquía-Amazonía,Cuenta propia,61.2157,1809443.3035,13339.6483,543
+Orinoquía-Amazonía,Empleado(a) del gobierno,0.0,4022892.6199,1910.8688,107
+Orinoquía-Amazonía,Empleado(a) doméstico(a),92.6612,996817.2738,1364.5961,63
+Orinoquía-Amazonía,Empleado(a) particular,36.5908,2028035.93,10955.1777,412
+Pacífica,Cuenta propia,88.6413,984336.9496,183344.4202,1239
+Pacífica,Empleado(a) del gobierno,0.0,4339788.5486,11089.9214,173
+Pacífica,Empleado(a) doméstico(a),86.136,953940.9183,19947.3925,198
+Pacífica,Empleado(a) particular,45.2567,1748657.9345,157509.2739,1232
+Pacífica,Patrón(a) o empleador(a),57.4269,2282903.0419,6122.8811,57

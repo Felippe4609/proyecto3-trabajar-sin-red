@@ -1,0 +1,15 @@
+# Microdatos de la GEIH: no se publican
+data/raw/
+*.csv.gz
+*.sav
+*.dta
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Sistema
+.DS_Store
+.ipynb_checkpoints/
