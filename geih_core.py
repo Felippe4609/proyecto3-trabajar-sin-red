@@ -108,6 +108,11 @@ def cop(valor: float) -> str:
     return f"{signo}$" + f"{abs(valor):,.0f}".replace(",", ".")
 
 
+def pct(valor: float, dec: int = 1) -> str:
+    """Porcentaje con coma decimal, como se escribe en español."""
+    return f"{valor:.{dec}f}".replace(".", ",") + " %"
+
+
 def miles(valor: float) -> str:
     return f"{valor:,.0f}".replace(",", ".")
 
