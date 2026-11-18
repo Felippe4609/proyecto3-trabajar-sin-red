@@ -33,3 +33,11 @@ Cálculos propios. Cartografía del mapa: GADM 4.1.
 pip install -r requirements.txt
 streamlit run app.py
 ```
+
+## Nota sobre el nombre del repositorio
+
+El repositorio conserva `proyecto3-trabajar-sin-red`, el título de trabajo. Streamlit
+Community Cloud identifica la aplicación por sus coordenadas de GitHub (propietario,
+repositorio, rama y archivo de entrada), así que renombrarlo obliga a borrar la
+aplicación y volver a desplegarla. Se decidió no arriesgar el despliegue cerca de la
+entrega. El nombre definitivo del proyecto es **Sostener un hogar sin respaldo**.
