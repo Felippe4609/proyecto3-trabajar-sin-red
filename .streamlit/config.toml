@@ -1,0 +1,13 @@
+# El tema se fija a propósito: la pieza está diseñada sobre fondo claro y, sin esto,
+# quien tenga el modo oscuro del navegador veía el texto casi invisible.
+[theme]
+base = "light"
+primaryColor = "#EB6834"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#FBF4EF"
+textColor = "#1F2328"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = false

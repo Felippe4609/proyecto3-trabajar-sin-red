@@ -67,6 +67,25 @@ def cargar_regiones(carpeta: Path) -> pd.DataFrame:
     return df.sort_values("informalidad_jefas", ascending=False).reset_index(drop=True)
 
 
+def cargar_hist_ingreso(carpeta: Path) -> pd.DataFrame:
+    """Distribución del ingreso en tramos, para dibujarla de forma interactiva."""
+    return _leer(Path(carpeta) / "p3_ingreso_hist.csv",
+                 ["situacion", "ingreso", "porcentaje"])
+
+
+def cargar_posicion_zona(carpeta: Path) -> pd.DataFrame:
+    """Informalidad por tipo de empleo y zona."""
+    df = _leer(Path(carpeta) / "p3_posicion_zona.csv",
+               ["posicion", "zona", "informalidad", "n"])
+    df["posicion"] = df["posicion"].map(lambda x: ETIQUETAS_POSICION.get(x, x))
+    return df
+
+
+def parametros(carpeta: Path) -> dict:
+    df = _leer(Path(carpeta) / "p3_parametros.csv")
+    return dict(zip(df.iloc[:, 0], pd.to_numeric(df.iloc[:, 1], errors="coerce")))
+
+
 def cargar_posiciones(carpeta: Path) -> pd.DataFrame:
     df = _leer(Path(carpeta) / "p3_region_posicion.csv", COLS_POS)
     df["posicion"] = df["posicion"].map(lambda p: ETIQUETAS_POSICION.get(p, p))

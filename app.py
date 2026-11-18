@@ -34,11 +34,12 @@ FUENTE = (f"Fuente: DANE, Gran Encuesta Integrada de Hogares (GEIH) {PERIODO}. "
 
 @st.cache_data
 def cargar():
-    return gc.cargar_resumen(OUT), gc.cargar_regiones(OUT), gc.cargar_posiciones(OUT)
+    return (gc.cargar_resumen(OUT), gc.cargar_regiones(OUT), gc.cargar_posiciones(OUT),
+            gc.cargar_posicion_zona(OUT), gc.cargar_hist_ingreso(OUT), gc.parametros(OUT))
 
 
 try:
-    resumen, regiones, posiciones = cargar()
+    resumen, regiones, posiciones, pos_zona, hist, param = cargar()
 except gc.DatosFaltantes as e:
     st.error(f"Todavía no puedo mostrar la historia.\n\n{e}")
     st.stop()
@@ -219,8 +220,27 @@ elif seccion == SECCIONES[3]:
 elif seccion == SECCIONES[4]:
     estilo.titular(st, "El empleo doméstico y el trabajo por cuenta propia "
                        "casi nunca traen protección")
-    imagen("p3_fig2_posicion.png", "Informalidad según tipo de empleo y zona",
-           "Falta la figura. Ejecute el cuaderno.")
+    comparables = (pos_zona.groupby("posicion").zona.nunique()
+                   .pipe(lambda s: s[s == 2].index))
+    d = pos_zona[pos_zona.posicion.isin(comparables)].copy()
+    orden = (d.groupby("posicion").informalidad.mean()
+             .sort_values(ascending=False).index.tolist())
+    fig = px.bar(d, x="posicion", y="informalidad", color="zona", barmode="group",
+                 category_orders={"posicion": orden, "zona": ["Rural", "Urbana"]},
+                 color_discrete_map={"Rural": FOCO, "Urbana": COMP},
+                 pattern_shape="zona" if tramas else None,
+                 pattern_shape_sequence=TRAMAS,
+                 text=d.informalidad.map(lambda v: f"{v:.0f} %"),
+                 hover_data={"n": True, "jefas_mes": ":,.0f",
+                             "informalidad": ":.1f", "posicion": False},
+                 labels={"posicion": "", "informalidad": "% en trabajo informal",
+                         "zona": "", "n": "casos en la encuesta",
+                         "jefas_mes": "jefas al mes"})
+    fig.update_traces(textposition="outside", cliponaxis=False)
+    fig.update_layout(yaxis_range=[0, 112])
+    st.plotly_chart(estilizar(fig, 460), use_container_width=True)
+    st.caption("Pase el cursor para ver cuántas mujeres y cuántos casos hay en cada barra. "
+               "Solo se muestran los tipos de empleo con 30 o más casos en ambas zonas.")
     st.markdown("""<div class="entradilla">Trabajar por cuenta propia es la puerta de
         entrada más común y, a la vez, la que casi nunca trae protección. El empleo
         doméstico está en una situación parecida. El empleo en una empresa privada es el
@@ -245,9 +265,24 @@ elif seccion == SECCIONES[5]:
         estilo.tarjeta(st, gc.pct(resumen["brecha_ingresos_pct"]),
                        "menos ganan ellas", "No mide discriminación salarial")
     st.markdown("")
-    imagen("p3_fig1_ingreso.png",
-           f"Ingreso mensual frente al salario mínimo ({gc.cop(gc.SMMLV_2026)})",
-           "Falta la figura. Ejecute el cuaderno.")
+    fig = px.line(hist, x="ingreso", y="porcentaje", color="situacion",
+                  line_shape="hv",
+                  color_discrete_map={"Trabajo informal": FOCO,
+                                      "Trabajo formal": COMP},
+                  line_dash="situacion" if tramas else None,
+                  labels={"ingreso": "Ingreso laboral mensual",
+                          "porcentaje": "% de jefas de hogar", "situacion": ""},
+                  hover_data={"ingreso": ":,.0f", "porcentaje": ":.1f"})
+    fig.update_traces(line_width=2.6)
+    fig.add_vline(x=param["smmlv"], line_dash="dash", line_color=TINTA, line_width=1.6)
+    fig.add_annotation(x=param["smmlv"], y=1.02, yref="paper", yanchor="bottom",
+                       text=f"Salario mínimo {gc.cop(param['smmlv'])}",
+                       showarrow=False, font=dict(size=13, color=TINTA))
+    fig.update_xaxes(tickformat=",.0f", tickprefix="$")
+    fig.update_layout(margin=dict(t=60, b=50, l=10, r=20))
+    st.plotly_chart(estilizar(fig, 440), use_container_width=True)
+    st.caption(f"Se recorta el 3 % de ingresos más altos, por encima de "
+               f"{gc.cop(param['tope_ingreso'])}. Pase el cursor sobre las líneas.")
     st.markdown("""<div class="nota">En el trabajo formal los ingresos se concentran justo
         en el salario mínimo; en el informal se reparten muy por debajo. La diferencia con
         los hombres <b>no es</b> una medida de discriminación salarial: no compara el mismo
