@@ -1,6 +1,6 @@
 """
 Proyecto 3 · Visualización I · Equipo Castro–Pulido
-Trabajar sin red: las mujeres que sostienen un hogar con hijos menores.
+Sostener un hogar sin respaldo: informalidad laboral de las jefas de hogar con hijos menores.
 
 Producto digital narrativo (modalidad B). Recorre la historia en nueve pasos:
 audiencia -> necesidad -> pregunta -> Gran Idea -> evidencia -> interpretación -> cierre.
@@ -24,7 +24,7 @@ ENLACE_NOTEBOOK = ""  # Colab o enlace al cuaderno
 PERIODO = "enero a junio de 2026"
 OUT = Path(__file__).parent / "outputs"
 
-st.set_page_config(page_title="Trabajar sin red · Jefas de hogar en Colombia",
+st.set_page_config(page_title="Sostener un hogar sin respaldo",
                    page_icon="📊", layout="wide",
                    initial_sidebar_state="expanded")
 
@@ -137,7 +137,7 @@ def imagen(nombre, pie, falta):
 # ─────────────────────────────── 1
 if seccion == SECCIONES[0]:
     estilo.cabecera(
-        st, "Trabajar sin red",
+        st, "Sostener un hogar sin respaldo",
         "Las mujeres que sostienen un hogar con hijos menores en Colombia, "
         "y qué tan común es que trabajen sin pensión ni salud.")
     izq, der = st.columns([3, 2], gap="large")
