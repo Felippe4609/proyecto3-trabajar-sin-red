@@ -11,6 +11,7 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as componentes
 
 import estilo
 import geih_core as gc
@@ -59,18 +60,59 @@ MODOS = {"Estándar": "estandar",
          "Daltonismo (deuteranopía y protanopía)": "daltonismo",
          "Alto contraste": "contraste"}
 
-# ─────────────────────────────── estado del recorrido
+# ─────────────────────────────── barra lateral
 if "seccion" not in st.session_state:
     st.session_state.seccion = SECCIONES[0]
 
 
-def mover(pasos):
-    """Avanza o retrocede un paso. Lo usan las flechas del navegador."""
-    i = SECCIONES.index(st.session_state.seccion) + pasos
-    st.session_state.seccion = SECCIONES[max(0, min(i, len(SECCIONES) - 1))]
+def flechas_de_teclado():
+    """Permite avanzar y retroceder con las flechas ← y → del teclado.
+
+    Streamlit no expone eventos de teclado, así que este componente escucha en la
+    página que lo contiene y marca la opción vecina del menú lateral. No añade
+    ningún control visible: si el navegador lo bloqueara, el menú sigue sirviendo.
+    """
+    componentes.html("""
+<script>
+const doc = window.parent.document;
+if (!doc.__navFlechas) {
+  doc.__navFlechas = true;
+  doc.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return;
+    const t = e.target;
+    const etiqueta = t && t.tagName ? t.tagName.toUpperCase() : "";
+    // Si el foco está en un campo, un deslizador o una lista abierta, las
+    // flechas son suyas: mueven el cursor o la selección, no el recorrido.
+    if (etiqueta === "INPUT" || etiqueta === "TEXTAREA" || etiqueta === "SELECT") return;
+    if (t && t.isContentEditable) return;
+    if (t && t.closest && t.closest('[role="slider"]')) return;
+    if (doc.querySelector('[data-baseweb="popover"]')) return;
+    const opciones = doc.querySelectorAll(
+        '[data-testid="stSidebar"] div[role="radiogroup"] input[type="radio"]');
+    if (!opciones.length) return;
+    let i = -1;
+    opciones.forEach((o, k) => { if (o.checked) i = k; });
+    if (i < 0) return;
+    const destino = i + (e.key === "ArrowRight" ? 1 : -1);
+    if (destino < 0 || destino >= opciones.length) return;
+    e.preventDefault();
+    opciones[destino].click();
+  });
+}
+</script>
+""", height=0)
 
 
 with st.sidebar:
+    st.markdown("### Recorrido")
+    seccion = st.radio("Secciones", SECCIONES, key="seccion",
+                       label_visibility="collapsed")
+    paso = SECCIONES.index(seccion) + 1
+    st.progress(paso / len(SECCIONES), text=f"Paso {paso} de {len(SECCIONES)}")
+    st.caption("También puede avanzar y retroceder con las flechas ← y → del teclado.")
+
+    st.divider()
     st.markdown("### Accesibilidad")
     nombre_modo = st.selectbox(
         "Paleta de colores", list(MODOS),
@@ -97,20 +139,6 @@ BORDE_BARRA = TINTA if modo == "contraste" else "rgba(0,0,0,0)"
 TRAMAS = ["", "/", "x", "-", "\\", "+"] if tramas else [""]
 
 st.markdown(estilo.css(FOCO), unsafe_allow_html=True)
-
-# ─────────────────────────────── navegador: un unico control para todo el recorrido
-_atras, _centro, _adelante = st.columns([1, 12, 1], vertical_alignment="center")
-_atras.button("←", key="paso_atras", on_click=mover, args=(-1,),
-              disabled=(st.session_state.seccion == SECCIONES[0]),
-              use_container_width=True, help="Paso anterior")
-seccion = _centro.selectbox("Paso del recorrido", SECCIONES, key="seccion",
-                            label_visibility="collapsed")
-_adelante.button("→", key="paso_adelante", on_click=mover, args=(1,),
-                 disabled=(st.session_state.seccion == SECCIONES[-1]),
-                 use_container_width=True, help="Paso siguiente")
-paso = SECCIONES.index(seccion) + 1
-st.caption(f"Paso {paso} de {len(SECCIONES)} · avance y retroceda con las flechas, "
-           "o abra la lista para ir directo a un paso.")
 
 alta, baja = gc.extremos(regiones)
 
@@ -446,9 +474,4 @@ else:
     estilo.fuente(st, f"{estilo.EQUIPO} · {estilo.INTEGRANTES} · {estilo.CURSO}")
 
 
-# ─────────────────────────────── continuacion al terminar de leer el paso
-_i = SECCIONES.index(seccion)
-if _i < len(SECCIONES) - 1:
-    st.markdown("")
-    st.button(f"Siguiente paso: {SECCIONES[_i + 1].split(' · ')[1]}  →",
-              key="seguir_leyendo", on_click=mover, args=(1,), type="primary")
+flechas_de_teclado()
