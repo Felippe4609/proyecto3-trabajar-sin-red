@@ -10,9 +10,21 @@ def css(foco: str) -> str:
     return f"""
 <style>
   .block-container {{ padding-top: 2.2rem; max-width: 1180px; }}
-  html, body, [class*="st-"] {{
+  /* La tipografía se aplica al texto, NO a todo lo que empiece por "st-":
+     los iconos de Streamlit son una fuente de ligaduras y, si se les cambia la
+     familia, imprimen su nombre (keyboard_double_arrow_right) en vez del dibujo. */
+  html, body, .stApp, p, li, h1, h2, h3, h4, h5, h6,
+  [data-testid="stMarkdownContainer"], [data-testid="stMetricLabel"],
+  [data-testid="stMetricValue"], [data-testid="stMetricDelta"],
+  [data-testid="stWidgetLabel"], .stButton, .stDownloadButton {{
       font-family: "Source Sans Pro", system-ui, -apple-system, sans-serif;
       color: {TINTA};
+  }}
+
+  /* Blindaje: los iconos conservan siempre su propia tipografía. */
+  [data-testid="stIconMaterial"], .material-symbols-rounded,
+  [class*="material-symbols"], span[translate="no"] {{
+      font-family: "Material Symbols Rounded", "Material Symbols Outlined" !important;
   }}
 
   /* Cabecera */

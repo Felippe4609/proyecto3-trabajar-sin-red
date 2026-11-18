@@ -60,9 +60,21 @@ MODOS = {"Estándar": "estandar",
          "Alto contraste": "contraste"}
 
 # ─────────────────────────────── barra lateral
+if "seccion" not in st.session_state:
+    st.session_state.seccion = SECCIONES[0]
+
+
+def ir_a(destino):
+    """Callback de los botones Anterior / Siguiente."""
+    st.session_state.seccion = destino
+
+
 with st.sidebar:
     st.markdown("### Recorrido")
-    seccion = st.radio("Secciones", SECCIONES, label_visibility="collapsed")
+    seccion = st.radio("Secciones", SECCIONES, key="seccion",
+                       label_visibility="collapsed")
+    paso = SECCIONES.index(seccion) + 1
+    st.progress(paso / len(SECCIONES), text=f"Paso {paso} de {len(SECCIONES)}")
 
     st.divider()
     st.markdown("### Accesibilidad")
@@ -314,6 +326,28 @@ elif seccion == SECCIONES[6]:
     c3.metric("Ingreso mensual promedio", gc.cop(fila["ingreso_medio_jefas"]))
 
     sub = posiciones[posiciones.region == region].sort_values("informalidad")
+
+    # Respuesta directa al caso de quien consulta
+    if not sub.empty:
+        st.markdown("")
+        empleo = st.selectbox("¿De qué trabaja?", list(sub.posicion),
+                              help="Solo aparecen los tipos de empleo con muestra "
+                                   "suficiente en esta región.")
+        caso = sub[sub.posicion == empleo].iloc[0]
+        cuantas = round(caso.informalidad / 10)
+        st.markdown(
+            f"""<div class="tarjeta" style="border-left:5px solid {FOCO}">
+            <div class="rotulo" style="font-size:1.18rem;line-height:1.5">
+            De cada 10 mujeres que sostienen un hogar con hijos menores en
+            <b>{region}</b> y trabajan como <b>{empleo.lower()}</b>,
+            <b style="color:{FOCO}">{cuantas} lo hacen sin cotizar a pensión ni a
+            salud</b> ({gc.pct(caso.informalidad)}).</div>
+            <div class="pie">Basado en {int(caso.n)} casos de la encuesta.
+            {"Son pocos: tome la cifra como una señal aproximada."
+             if caso.n < 100 else ""}</div></div>""",
+            unsafe_allow_html=True)
+        st.markdown("")
+
     if sub.empty:
         st.info(f"No hay desglose por tipo de empleo para {region} con muestra suficiente.")
     else:
@@ -402,3 +436,15 @@ else:
     distinga también por su textura, no solo por el color.</div>""",
                 unsafe_allow_html=True)
     estilo.fuente(st, f"{estilo.EQUIPO} · {estilo.INTEGRANTES} · {estilo.CURSO}")
+
+
+# ─────────────────────────────── navegación entre pasos
+st.markdown("")
+_i = SECCIONES.index(seccion)
+_izq, _medio, _der = st.columns([2, 1, 2])
+if _i > 0:
+    _izq.button(f"← {SECCIONES[_i - 1].split(' · ')[1]}", on_click=ir_a,
+                args=(SECCIONES[_i - 1],), use_container_width=True)
+if _i < len(SECCIONES) - 1:
+    _der.button(f"{SECCIONES[_i + 1].split(' · ')[1]} →", on_click=ir_a,
+                args=(SECCIONES[_i + 1],), use_container_width=True, type="primary")
