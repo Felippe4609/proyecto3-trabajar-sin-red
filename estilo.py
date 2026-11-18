@@ -28,21 +28,21 @@ def css(foco: str) -> str:
   }}
 
   /* Cabecera */
-  .masthead {{ border-top: 6px solid {foco}; padding-top: 1.1rem; margin-bottom: 1.6rem; }}
+  .masthead {{ border-top: 6px solid {foco}; padding-top: 1.7rem; margin-bottom: 2rem; }}
   .masthead h1 {{
       font-size: 2.55rem; font-weight: 700; letter-spacing: -0.02em;
-      line-height: 1.12; margin: 0 0 .35rem 0; color: {TINTA};
+      line-height: 1.22; margin: 0 0 .55rem 0; color: {TINTA};
   }}
-  .masthead .bajada {{ font-size: 1.12rem; color: {SUAVE}; margin: 0 0 .9rem 0; line-height: 1.45; }}
+  .masthead .bajada {{ font-size: 1.12rem; color: {SUAVE}; margin: 0 0 1.35rem 0; line-height: 1.5; }}
   .masthead .firma {{
       font-size: .82rem; color: {SUAVE}; border-top: 1px solid {BORDE};
-      padding-top: .6rem; letter-spacing: .01em;
+      padding-top: 1rem; line-height: 1.6; letter-spacing: .01em;
   }}
 
   /* Titulares de sección: la conclusión, no el tema */
   .titular {{
-      font-size: 1.72rem; font-weight: 700; line-height: 1.22;
-      margin: .2rem 0 1.1rem 0; color: {TINTA};
+      font-size: 1.72rem; font-weight: 700; line-height: 1.34;
+      margin: .35rem 0 1.25rem 0; color: {TINTA};
   }}
   .entradilla {{ font-size: 1.06rem; line-height: 1.6; color: {TINTA}; max-width: 70ch; }}
   .nota {{ font-size: .93rem; line-height: 1.55; color: {SUAVE}; max-width: 75ch; }}
@@ -52,14 +52,20 @@ def css(foco: str) -> str:
       background: {CREMA}; border: 1px solid {BORDE}; border-radius: 12px;
       padding: 1.1rem 1.25rem; height: 100%;
   }}
-  .tarjeta .cifra {{ font-size: 2.3rem; font-weight: 700; color: {foco}; line-height: 1.1; }}
+  .tarjeta .cifra {{ font-size: 2.3rem; font-weight: 700; color: {foco}; line-height: 1.25; }}
   .tarjeta .rotulo {{ font-size: .95rem; color: {TINTA}; margin-top: .35rem; line-height: 1.4; }}
   .tarjeta .pie {{ font-size: .78rem; color: {SUAVE}; margin-top: .6rem; }}
 
   .fuente {{
       font-size: .8rem; color: {SUAVE}; border-top: 1px solid {BORDE};
-      padding-top: .7rem; margin-top: 1.6rem; line-height: 1.5;
+      padding-top: 1.1rem; margin-top: 2.1rem; line-height: 1.6;
   }}
+
+  /* Las líneas horizontales necesitan aire a ambos lados: con poco margen,
+     las colas de las letras del texto vecino quedan encima de la raya. */
+  hr, [data-testid="stDivider"] {{ margin: 1.5rem 0 !important; }}
+  [data-testid="stSidebar"] hr {{ margin: 1.1rem 0 !important; }}
+  h1, h2, h3, h4, h5, h6 {{ line-height: 1.3; padding-bottom: .06em; }}
 
   [data-testid="stSidebar"] {{ border-right: 1px solid {BORDE}; }}
   [data-testid="stSidebar"] .block-container {{ padding-top: 1.4rem; }}
