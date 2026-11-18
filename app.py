@@ -20,7 +20,7 @@ from paleta import PALETAS, SECUENCIAL, SUAVE, TINTA
 # ─────────────────────────────── completar antes de entregar
 ENLACE_POWERBI = ""   # enlace del dashboard en Power BI Service
 ENLACE_REPO = "https://github.com/Felippe4609/proyecto3-trabajar-sin-red"
-ENLACE_NOTEBOOK = ""  # Colab o enlace al cuaderno
+ENLACE_NOTEBOOK = ("https://github.com/Felippe4609/proyecto3-trabajar-sin-red/blob/main/analisis/EquipoCastroPulido_Proyecto3_Notebook.ipynb")
 
 PERIODO = "enero a junio de 2026"
 OUT = Path(__file__).parent / "outputs"
