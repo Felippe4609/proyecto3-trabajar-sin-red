@@ -1,6 +1,6 @@
 # Proyecto 3 · App narrativa (modalidad B) · Equipo Castro–Pulido
 # Versiones alineadas con las del Proyecto 2, para conservar el mismo entorno.
-streamlit>=1.32,<2
+streamlit>=1.40,<2
 pandas==3.0.5
 numpy==2.5.3
 plotly==7.1.0

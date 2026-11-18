@@ -59,24 +59,18 @@ MODOS = {"Estándar": "estandar",
          "Daltonismo (deuteranopía y protanopía)": "daltonismo",
          "Alto contraste": "contraste"}
 
-# ─────────────────────────────── barra lateral
+# ─────────────────────────────── estado del recorrido
 if "seccion" not in st.session_state:
     st.session_state.seccion = SECCIONES[0]
 
 
-def ir_a(destino):
-    """Callback de los botones Anterior / Siguiente."""
-    st.session_state.seccion = destino
+def mover(pasos):
+    """Avanza o retrocede un paso. Lo usan las flechas del navegador."""
+    i = SECCIONES.index(st.session_state.seccion) + pasos
+    st.session_state.seccion = SECCIONES[max(0, min(i, len(SECCIONES) - 1))]
 
 
 with st.sidebar:
-    st.markdown("### Recorrido")
-    seccion = st.radio("Secciones", SECCIONES, key="seccion",
-                       label_visibility="collapsed")
-    paso = SECCIONES.index(seccion) + 1
-    st.progress(paso / len(SECCIONES), text=f"Paso {paso} de {len(SECCIONES)}")
-
-    st.divider()
     st.markdown("### Accesibilidad")
     nombre_modo = st.selectbox(
         "Paleta de colores", list(MODOS),
@@ -103,6 +97,20 @@ BORDE_BARRA = TINTA if modo == "contraste" else "rgba(0,0,0,0)"
 TRAMAS = ["", "/", "x", "-", "\\", "+"] if tramas else [""]
 
 st.markdown(estilo.css(FOCO), unsafe_allow_html=True)
+
+# ─────────────────────────────── navegador: un unico control para todo el recorrido
+_atras, _centro, _adelante = st.columns([1, 12, 1], vertical_alignment="center")
+_atras.button("←", key="paso_atras", on_click=mover, args=(-1,),
+              disabled=(st.session_state.seccion == SECCIONES[0]),
+              use_container_width=True, help="Paso anterior")
+seccion = _centro.selectbox("Paso del recorrido", SECCIONES, key="seccion",
+                            label_visibility="collapsed")
+_adelante.button("→", key="paso_adelante", on_click=mover, args=(1,),
+                 disabled=(st.session_state.seccion == SECCIONES[-1]),
+                 use_container_width=True, help="Paso siguiente")
+paso = SECCIONES.index(seccion) + 1
+st.caption(f"Paso {paso} de {len(SECCIONES)} · avance y retroceda con las flechas, "
+           "o abra la lista para ir directo a un paso.")
 
 alta, baja = gc.extremos(regiones)
 
@@ -438,13 +446,9 @@ else:
     estilo.fuente(st, f"{estilo.EQUIPO} · {estilo.INTEGRANTES} · {estilo.CURSO}")
 
 
-# ─────────────────────────────── navegación entre pasos
-st.markdown("")
+# ─────────────────────────────── continuacion al terminar de leer el paso
 _i = SECCIONES.index(seccion)
-_izq, _medio, _der = st.columns([2, 1, 2])
-if _i > 0:
-    _izq.button(f"← {SECCIONES[_i - 1].split(' · ')[1]}", on_click=ir_a,
-                args=(SECCIONES[_i - 1],), use_container_width=True)
 if _i < len(SECCIONES) - 1:
-    _der.button(f"{SECCIONES[_i + 1].split(' · ')[1]} →", on_click=ir_a,
-                args=(SECCIONES[_i + 1],), use_container_width=True, type="primary")
+    st.markdown("")
+    st.button(f"Siguiente paso: {SECCIONES[_i + 1].split(' · ')[1]}  →",
+              key="seguir_leyendo", on_click=mover, args=(1,), type="primary")
