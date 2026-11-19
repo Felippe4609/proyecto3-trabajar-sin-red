@@ -109,7 +109,7 @@ Dos referencias que no entran en la figura por falta de casos rurales: **emplead
 - **Describe, no explica.** Las diferencias entre regiones no dicen por qué ocurren ni permiten evaluar políticas públicas.
 - **No mide discriminación salarial.** La diferencia de 25,5 % no compara el mismo cargo con la misma jornada y experiencia.
 - **Sin márgenes de error.** No se calcularon intervalos de confianza con el diseño muestral; diferencias pequeñas entre regiones pueden no ser distinguibles. Pacífica (68,0 %) y Caribe (67,5 %) están a medio punto: **no conviene afirmar cuál es la más alta**.
-- **Orinoquía-Amazonía:** la encuesta cubre solo las capitales de sus nueve departamentos, y es la región con menos casos (1.151).
+- **Orinoquía-Amazonía:** la encuesta cubre solo las capitales de sus nueve departamentos, y su muestra es pequeña (1.151 registros).
 - **Bogotá** tiene pocos casos de jefas (579) pese a su tamaño.
 - **El ingreso es autorreportado** y se calcula solo sobre quienes declaran un ingreso mayor que cero.
 - **Es el promedio de enero a junio de 2026**, no una tendencia.

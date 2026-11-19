@@ -347,8 +347,8 @@ elif seccion == SECCIONES[6]:
     fila = gc.fila_region(regiones, region)
 
     if gc.solo_capital(regiones, region):
-        st.warning(f"En {region} la encuesta cubre principalmente las capitales, y es la "
-                   f"región con menos casos ({int(fila['n'])}). Estas cifras no "
+        st.warning(f"En {region} la encuesta cubre principalmente las capitales, y la "
+                   f"muestra es pequeña ({int(fila['n'])} registros). Estas cifras no "
                    "representan bien las zonas alejadas de las capitales.")
     elif gc.muestra_pequena(regiones, region):
         st.warning(f"En {region} la encuesta tiene pocos casos ({int(fila['n'])}). "
@@ -418,8 +418,8 @@ elif seccion == SECCIONES[7]:
     <b>Vienen de una encuesta, no de un censo.</b> Cada cifra tiene un margen de error que
     aquí no se calculó. {par} están a medio punto: son las dos regiones con mayor
     informalidad, pero no se puede afirmar cuál encabeza la lista.<br><br>
-    <b>Orinoquía-Amazonía</b> es la región con menos casos, y allí la encuesta cubre sobre
-    todo las capitales.<br><br>
+    <b>En Orinoquía-Amazonía la encuesta cubre sobre todo las capitales</b> de sus nueve
+    departamentos, así que sus cifras no representan bien las zonas alejadas.<br><br>
     <b>El ingreso es el que cada persona reporta</b>, y se calcula solo sobre quienes
     declaran un ingreso mayor que cero.<br><br>
     <b>Son un promedio de {PERIODO}</b>, no una tendencia ni una proyección.
